@@ -79,6 +79,7 @@ aws_ec2_security_groups:
 
   # Create Security Group for by VPC name
   - vpc_name: devops-test-vpc
+    region: eu-central-1
     security_groups:
       - name: devops-test-sg
         rules:
@@ -96,6 +97,7 @@ aws_ec2_security_groups:
         val: playground
       - key: "tag:department"
         val: devops
+    region: eu-central-1
     security_groups:
       - name: devops-test-sg-2
         rules:
