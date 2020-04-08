@@ -1,0 +1,70 @@
+---
+
+###
+### Asserts
+###
+
+# Assert that required name element is present
+- name: ensure security_groups[x].security_group contains name key
+  assert:
+    that:
+      - sg.name is defined
+      - sg.name | length > 0
+    msg: "aws_ec2_security_groups[x].security_group[y].name not defined, but required"
+
+- name: ensure rules are defined correctly
+  assert:
+    that:
+      # Protocol must be present
+      - item.proto is defined
+      # Ports must be present
+      - item.ports is defined
+      # cidr Must be present
+      - item.cidr_ip is defined
+    msg: "aws_ec2_security_groups[x].rules[y] is not defined correctly"
+  with_items:
+    - "{{ sg.rules }}"
+
+###
+### Gather resources
+###
+
+# Returns:
+# * aws_ec2_security_group_vpc_id
+- include_tasks: gather_facts_vpc_by_filter.yml
+  when:
+    - sg.vpc_filter is defined
+
+# Returns:
+# * aws_ec2_security_group_vpc_id
+- include_tasks: gather_facts_vpc_by_name.yml
+  when:
+    - sg.vpc_name is defined
+
+- name: set sg tags
+  set_fact:
+    _aws_ec2_security_group_tags: |
+      {{
+        sg.tags | default([]) + [{
+          'key': 'Name',
+          'val': sg.name
+        }]
+      }}
+
+- name: "ensure securty group is created: {{ sg.name }}"
+  ec2_group:
+    # Fixed Values
+    state: present
+    # Dynamic Values
+    name: "{{ sg.name }}"
+    description: "{{ sg.name }}"
+    rules: "{{ sg.rules | default(omit) }}"
+    # Looked-up Values
+    vpc_id: "{{ aws_ec2_security_group_vpc_id }}"
+    # Optional Values
+    tags: "{{ _aws_ec2_security_group_tags }}"
+    region: "{{ sg.region | default(aws_ec2_security_group_default_region | default(omit)) }}"
+    aws_secret_key: "{{ lookup('ENV', 'AWS_ACCESS_KEY') | default(omit) }}"
+    aws_access_key: "{{ lookup('ENV', 'AWS_SECRET_KEY') | default(omit) }}"
+    security_token: "{{ lookup('ENV', 'AWS_SECURITY_TOKEN') | default(omit) }}"
+    profile: "{{ aws_ec2_security_group_profile | default(omit) }}"

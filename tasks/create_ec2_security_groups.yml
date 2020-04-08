@@ -1,0 +1,33 @@
+---
+
+###
+### Asserts
+###
+- name: ensure ec2_security_groups array is defined correctly
+  assert:
+    that:
+      - ec2.vpc_filter is defined or vpc.vpc_name is defined
+      - not (ec2.vpc_filter is defined and vpc.vpc_name is defined)
+    msg: "aws_ec2_security_groups[x].vpc_filter or .vpc_name is not defined, but required to lookup vpc"
+
+
+# Returns:
+# * aws_ec2_security_group_vpc_id
+- include_tasks: gather_facts_vpc_by_filter.yml
+  when:
+    - ec2.vpc_filter is defined
+
+
+# Returns:
+# * aws_ec2_security_group_vpc_id
+- include_tasks: gather_facts_vpc_by_name.yml
+  when:
+    - ec2.vpc_name is defined
+
+
+# Now loop over all route tables for the current VPC
+- include_tasks: create_ec2_security_group.yml
+  loop_control:
+    loop_var: sg
+  with_items:
+    - "{{ ec2.security_groups }}"

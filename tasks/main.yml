@@ -1,0 +1,10 @@
+---
+
+###
+### Main entrypoint
+###
+- include_tasks: create_ec2_security_groups.yml
+  loop_control:
+    loop_var: ec2
+  with_items:
+    - "{{ aws_ec2_security_groups }}"
