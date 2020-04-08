@@ -39,7 +39,7 @@ aws_ec2_security_groups:
               - 443
             cidr_ip: 0.0.0.0/0
 
-  # Create route tables for a VPC by VPC filter
+  # Create Security Groups by VPC filter
   - vpc_filter:
       - key: "tag:Name"
         val: "devops-test-vpc"
@@ -60,6 +60,11 @@ aws_ec2_security_groups:
               - 80
               - 443
               - 3306
+            cidr_ip: 0.0.0.0/0
+          # Example for specifying port range
+          - proto: tcp
+            ports:
+              - 8080-8099
             cidr_ip: 0.0.0.0/0
 ```
 
@@ -83,7 +88,7 @@ aws_ec2_security_groups:
               - 443
             cidr_ip: 0.0.0.0/0
 
-  # Create route tables for a VPC by VPC filter
+  # Create Security Groups by VPC filter
   - vpc_filter:
       - key: "tag:Name"
         val: "devops-test-vpc"
@@ -94,64 +99,21 @@ aws_ec2_security_groups:
     security_groups:
       - name: devops-test-sg-2
         rules:
+          # Example for specifying single port
           - proto: tcp
             ports: 22
             cidr_ip: 0.0.0.0/0
-          # Example for NAT GW by name
-          - proto: tcp
-            ports: 80
-            cidr_ip: 0.0.0.0/0
-          # Example for NAT GW by filter
+          # Example for specifying single multiple ports
           - proto: tcp
             ports:
               - 80
               - 443
+              - 3306
             cidr_ip: 0.0.0.0/0
-          # Example for Instance by name
-          - proto: tcp
-            ports: 3306
-            cidr_ip: 0.0.0.0/0
-          # Example for Instance by filter
+          # Example for specifying port range
           - proto: tcp
             ports:
-              - 80
-              - 443
-            cidr_ip: 0.0.0.0/0
-          # Example for ENI by name
-          - proto: tcp
-            ports:
-              - 80
-              - 443
-            cidr_ip: 0.0.0.0/0
-          # Example for ENI by filter
-          - proto: tcp
-            ports:
-              - 80
-              - 443
-            cidr_ip: 0.0.0.0/0
-          # Example for VPC Peering by name
-          - proto: tcp
-            ports:
-              - 80
-              - 443
-            cidr_ip: 0.0.0.0/0
-          # Example for VPC Peering by filter
-          - proto: tcp
-            ports:
-              - 80
-              - 443
-            cidr_ip: 0.0.0.0/0
-          # Example for VGW by filter without route propagation
-          - proto: tcp
-            ports:
-              - 80
-              - 443
-            cidr_ip: 0.0.0.0/0
-          # Example for VGW by filter with route propagation
-          - proto: tcp
-            ports:
-              - 80
-              - 443
+              - 8080-8099
             cidr_ip: 0.0.0.0/0
 ```
 
