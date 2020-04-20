@@ -19,11 +19,13 @@
       - item.proto is defined
       # Ports must be present
       - item.ports is defined
-      # cidr Must be present
-      - item.cidr_ip is defined
+      # cidrv4 and/or group_id and/or cidr_ipv6 and/or group_name and/or rule_desc Must be present
+      #According to https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html#parameter-rules
+      - item.cidr_ip is defined or item.group_name is defined or item.group_id is defined or item.cidr_ipv6 or
+        item.rule_desc is defined
     msg: "aws_ec2_security_groups[x].rules[y] is not defined correctly"
   with_items:
-    - "{{ sg.rules }}"
+    - "{{ lookup('flattened', sg.rules) }}"
 
 ###
 ### Gather resources
@@ -62,7 +64,7 @@
     # Looked-up Values
     vpc_id: "{{ aws_ec2_security_group_vpc_id }}"
     # Optional Values
-    tags: "{{ _aws_ec2_security_group_tags }}"
+    tags: "{{ _aws_ec2_security_group_tags | get_attr('key', 'val') }}"
     region: "{{ sg.region | default(aws_ec2_security_group_default_region | default(omit)) }}"
     aws_secret_key: "{{ lookup('ENV', 'AWS_ACCESS_KEY') | default(omit) }}"
     aws_access_key: "{{ lookup('ENV', 'AWS_SECRET_KEY') | default(omit) }}"
