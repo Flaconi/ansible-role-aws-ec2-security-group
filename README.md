@@ -1,6 +1,6 @@
-# Ansible role: AWS VPC
+# Ansible role: AWS EC2 Security Group
 
-This role handles the creation of AWS VPC's
+This role handles the creation of AWS EC2 Security Group's
 
 [![Build Status](https://travis-ci.org/Flaconi/ansible-role-aws-ec2-security-group.svg?branch=master)](https://travis-ci.org/Flaconi/ansible-role-aws-ec2-security-group)
 [![Version](https://img.shields.io/github/tag/Flaconi/ansible-role-aws-ec2-security-group.svg)](https://github.com/Flaconi/ansible-role-aws-ec2-security-group/tags)
@@ -32,12 +32,18 @@ aws_ec2_security_groups:
   - vpc_name: devops-test-vpc
     security_groups:
       - name: devops-test-sg
+        #Rules reference https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html#parameter-rules
         rules:
           - proto: tcp
             ports:
               - 80
               - 443
+            group_name: devops-test-sg
             cidr_ip: 0.0.0.0/0
+            rule_desc: test rule
+            group_id:
+              - sg-edcd9784
+              - sg-edcd9785
 
   # Create Security Groups by VPC filter
   - vpc_filter:
@@ -49,6 +55,7 @@ aws_ec2_security_groups:
         val: devops
     security_groups:
       - name: devops-test-sg-2
+        #Rules reference https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html#parameter-rules
         rules:
           # Example for specifying single port
           - proto: tcp
@@ -65,7 +72,12 @@ aws_ec2_security_groups:
           - proto: tcp
             ports:
               - 8080-8099
+            group_name: devops-test-sg-2
             cidr_ip: 0.0.0.0/0
+            rule_desc: test rule
+            group_id:
+              - sg-edcd9784
+              - sg-edcd9785
 ```
 
 #### All available parameter
@@ -82,12 +94,18 @@ aws_ec2_security_groups:
     region: eu-central-1
     security_groups:
       - name: devops-test-sg
+        #Rules reference https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html#parameter-rules
         rules:
           - proto: tcp
             ports:
               - 80
               - 443
+            group_name: devops-test-sg
             cidr_ip: 0.0.0.0/0
+            rule_desc: test rule
+            group_id:
+              - sg-edcd9784
+              - sg-edcd9785
 
   # Create Security Groups by VPC filter
   - vpc_filter:
@@ -100,6 +118,7 @@ aws_ec2_security_groups:
     region: eu-central-1
     security_groups:
       - name: devops-test-sg-2
+        #Rules reference https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html#parameter-rules
         rules:
           # Example for specifying single port
           - proto: tcp
@@ -116,7 +135,12 @@ aws_ec2_security_groups:
           - proto: tcp
             ports:
               - 8080-8099
+            group_name: devops-test-sg-2
             cidr_ip: 0.0.0.0/0
+            rule_desc: test rule
+            group_id:
+              - sg-edcd9784
+              - sg-edcd9785
 ```
 
 ## Testing
@@ -136,5 +160,5 @@ make lint
 make test
 
 # Run integration tests with custom Ansible version
-make test ANSIBLE_VERSION=2.4
+make test ANSIBLE_VERSION=2.5
 ```
