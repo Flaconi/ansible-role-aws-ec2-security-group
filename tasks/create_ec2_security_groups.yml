@@ -6,8 +6,8 @@
 - name: ensure ec2_security_groups array is defined correctly
   assert:
     that:
-      - ec2.vpc_filter is defined or vpc.vpc_name is defined
-      - not (ec2.vpc_filter is defined and vpc.vpc_name is defined)
+      - ec2.vpc_filter is defined or ec2.vpc_name is defined
+      - not (ec2.vpc_filter is defined and ec2.vpc_name is defined)
     msg: "aws_ec2_security_groups[x].vpc_filter or .vpc_name is not defined, but required to lookup vpc"
 
 
