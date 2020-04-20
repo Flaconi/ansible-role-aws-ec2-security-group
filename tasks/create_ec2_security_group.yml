@@ -20,7 +20,7 @@
       # Ports must be present
       - item.ports is defined
       # cidrv4 and/or group_id and/or cidr_ipv6 and/or group_name and/or rule_desc Must be present
-      #According to https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html#parameter-rules
+      # According to https://docs.ansible.com/ansible/latest/modules/ec2_group_module.html#parameter-rules
       - item.cidr_ip is defined or item.group_name is defined or item.group_id is defined or item.cidr_ipv6 or
         item.rule_desc is defined
     msg: "aws_ec2_security_groups[x].rules[y] is not defined correctly"

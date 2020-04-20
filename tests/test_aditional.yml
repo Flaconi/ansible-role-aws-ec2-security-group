@@ -10,10 +10,10 @@
 
     aws_ec2_security_groups:
       - vpc_filter:
-        - key: "tag:Name"
-          val: default
-        - key: "tag:env"
-          val: playground
+          - key: "tag:Name"
+            val: default
+          - key: "tag:env"
+            val: playground
         region: eu-central-1
         security_groups:
           - name: devops-test-sg
