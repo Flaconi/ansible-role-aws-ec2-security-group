@@ -1,2 +1,4 @@
-*.swp
-*.pyc
+#Ignore all hidden files and any file starting with a dot
+.*
+#Ignore .gitignore as well
+!/.gitignore
