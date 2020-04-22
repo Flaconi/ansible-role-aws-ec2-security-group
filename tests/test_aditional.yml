@@ -1,0 +1,32 @@
+---
+- name: Running the addition test case
+  hosts: localhost
+  vars:
+    aws_ec2_security_group_vpc_filter_additional:
+      - key: "tag:Name"
+        val: default
+      - key: "tag:env"
+        val: playground
+
+    aws_ec2_security_groups:
+      - vpc_filter:
+          - key: "tag:Name"
+            val: default
+          - key: "tag:env"
+            val: playground
+        region: eu-central-1
+        security_groups:
+          - name: devops-test-sg
+            rules:
+              - proto: tcp
+                ports:
+                  - 80
+                  - 443
+                #rule_desc: test list
+                cidr_ip: 0.0.0.0/0
+                group_id:
+                  - sg-edcd9784
+                  - sg-edcd9785
+
+  roles:
+    - ansible-role-aws-ec2-security-group

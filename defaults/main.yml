@@ -1,0 +1,11 @@
+---
+
+###
+### Sane defaults
+###
+
+aws_ec2_security_group_default_region: eu-central-1
+
+aws_ec2_security_group_vpc_filter_additional: []
+
+aws_ec2_security_groups: []
