@@ -2,7 +2,7 @@
 
 This role handles the creation of AWS EC2 Security Group's
 
-[![Build Status](https://travis-ci.org/Flaconi/ansible-role-aws-ec2-security-group.svg?branch=master)](https://travis-ci.org/Flaconi/ansible-role-aws-ec2-security-group)
+[![Build Status](https://travis-ci.com/Flaconi/ansible-role-aws-ec2-security-group.svg?branch=master)](https://travis-ci.com/Flaconi/ansible-role-aws-ec2-security-group)
 [![Version](https://img.shields.io/github/tag/Flaconi/ansible-role-aws-ec2-security-group.svg)](https://github.com/Flaconi/ansible-role-aws-ec2-security-group/tags)
 
 ## Requirements
