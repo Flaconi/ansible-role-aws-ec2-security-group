@@ -1,6 +1,12 @@
 ---
 
 ###
+### Ensure Facts are clear
+###
+- set_fact:
+  facts_ec2_security_groups: []
+
+###
 ### Asserts
 ###
 - name: ensure ec2_security_groups array is defined correctly
