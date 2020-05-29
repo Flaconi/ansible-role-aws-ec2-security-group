@@ -4,7 +4,7 @@
 ### Ensure Facts are clear
 ###
 - set_fact:
-  aws_ec2_security_groups_facts: []
+    aws_ec2_security_groups_facts: []
 
 ###
 ### Asserts
