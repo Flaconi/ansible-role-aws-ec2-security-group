@@ -6,5 +6,11 @@ ignore: |
   /.travis.yml
 
 rules:
+  indentation:
+    level: warning
+    spaces: 2
+    indent-sequences: consistent
+    check-multi-line-strings: true
   line-length:
     max: 120
+  new-line-at-end-of-file: enable
