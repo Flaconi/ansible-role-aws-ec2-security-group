@@ -74,4 +74,4 @@
 
 - name: "Set GroupIds Facts"
   set_fact:
-    aws_ec2_security_groups_facts: "{{ aws_ec2_security_groups_facts + [_aws_ec2_security_group_facts.group_id] }}"
+    aws_ec2_security_groups_facts: "{{ aws_ec2_security_groups_facts | combine( {sg.name: {'group_id': _aws_ec2_security_group_facts.group_id} } )}}"
